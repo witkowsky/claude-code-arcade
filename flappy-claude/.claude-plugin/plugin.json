@@ -1,0 +1,27 @@
+{
+  "name": "flappy-claude",
+  "version": "0.1.0",
+  "description": "Flappy Bird with Clawd, the Claude Code mascot, in a pane, terminal and desktop. Space, click, or slap your MacBook (with ClaudeWhip) to flap.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "pauseWhip": {
+      "type": "boolean",
+      "title": "Pause ClaudeWhip while the game is open",
+      "description": "With ClaudeWhip installed, a slap then only flaps Clawd instead of also whipping Claude.",
+      "default": true
+    },
+    "slapMinG": {
+      "type": "number",
+      "title": "Smallest hit that flaps (g)",
+      "description": "Typing makes ~0.03 g taps; hits below this are ignored.",
+      "default": 0.08
+    }
+  },
+  "author": {
+    "name": "Marek Witkowski"
+  },
+  "homepage": "https://github.com/witkowsky/claude-code-arcade",
+  "repository": "https://github.com/witkowsky/claude-code-arcade",
+  "license": "MIT",
+  "keywords": ["game", "flappy-bird", "clawd", "mod", "claudewhip"]
+}

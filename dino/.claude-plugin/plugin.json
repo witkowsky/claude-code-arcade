@@ -1,0 +1,27 @@
+{
+  "name": "dino",
+  "version": "0.1.0",
+  "description": "The Chrome no-internet T-Rex in a Claude Code pane, terminal and desktop. Space, click, or slap your MacBook (with ClaudeWhip) to jump.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "pauseWhip": {
+      "type": "boolean",
+      "title": "Pause ClaudeWhip while the game is open",
+      "description": "With ClaudeWhip installed, a slap then only makes the dino jump instead of also whipping Claude.",
+      "default": true
+    },
+    "slapMinG": {
+      "type": "number",
+      "title": "Smallest hit that jumps (g)",
+      "description": "Typing makes ~0.03 g taps; hits below this are ignored.",
+      "default": 0.08
+    }
+  },
+  "author": {
+    "name": "Marek Witkowski"
+  },
+  "homepage": "https://github.com/witkowsky/claude-code-arcade",
+  "repository": "https://github.com/witkowsky/claude-code-arcade",
+  "license": "MIT",
+  "keywords": ["game", "dino", "t-rex", "mod", "claudewhip"]
+}

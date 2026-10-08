@@ -1,0 +1,19 @@
+{
+  "name": "claude-code-arcade",
+  "description": "Little games for Claude Code, playable in a pane while the agent works",
+  "owner": { "name": "Marek Witkowski" },
+  "plugins": [
+    {
+      "name": "flappy-claude",
+      "source": "./flappy-claude",
+      "description": "Flappy Bird with Clawd, the Claude Code mascot. Space, click, or slap your MacBook to flap.",
+      "category": "fun"
+    },
+    {
+      "name": "dino",
+      "source": "./dino",
+      "description": "The Chrome no-internet T-Rex runner. Space, click, or slap your MacBook to jump.",
+      "category": "fun"
+    }
+  ]
+}
