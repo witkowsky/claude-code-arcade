@@ -34,14 +34,31 @@ test('the pane draws the dino on terminal and desktop, and it paints pixels', as
   }
 })
 
-test('Space starts the run and the first cactus ends it', async $ => {
+test('the chrome theme: Space starts the run and the first cactus ends it', { options: { theme: 'chrome' } }, async $ => {
   for (const surface of ['terminal', 'desktop'] as const) {
     const ui = await $.ui.mount({ ...PANE, surface })
     await ui.resize({ columns: 50, rows: 16, in: 'dino' })
     expect(await ui.find({ type: 'Text', text: /No internet/, in: 'dino' })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /slap/i, in: 'dino' })).toBeUndefined()
     await ui.key({ key: ' ', in: 'dino' })
     await ui.advance(30000) // nobody jumps again: a cactus ends the run
     expect(await ui.find({ type: 'Text', text: /G A M E/, in: 'dino' })).toBeDefined()
+    await ui.unmount()
+  }
+})
+
+test('the claude theme runs Clawd, in orange, until a pipe stops him', { options: { theme: 'claude' } }, async $ => {
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const ui = await $.ui.mount({ ...PANE, surface })
+    await ui.resize({ columns: 50, rows: 16, in: 'dino' })
+    await ui.advance(100)
+    expect(await ui.find({ type: 'Text', text: /Clawd/, in: 'dino' })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /slap/i, in: 'dino' })).toBeUndefined()
+    const painted = await ui.findAll({ type: 'Text', in: 'dino' })
+    expect(painted.some(t => JSON.stringify(t).includes('#D77757'))).toBe(true)
+    await ui.key({ key: ' ', in: 'dino' })
+    await ui.advance(30000)
+    expect(await ui.find({ type: 'Text', text: /crashed at \d+/, in: 'dino' })).toBeDefined()
     await ui.unmount()
   }
 })

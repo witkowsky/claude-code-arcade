@@ -1,12 +1,18 @@
-// The Chrome no-internet T-Rex in a pane. The game runs on the drawing surface (games/dino.tsx);
-// this module opens the pane, keeps the best score and, when ClaudeWhip is installed, turns a
-// slap on the MacBook into a jump while the pane is open (pausing the whip meanwhile).
+// The Chrome no-internet runner in a pane, as Clawd (theme "claude") or the T-Rex ("chrome").
+// The game runs on the drawing surface (games/dino.tsx); this module opens the pane, keeps the
+// best score and, when slaps are on and ClaudeWhip is installed, turns a slap on the MacBook
+// into a jump while the pane is open (pausing the whip meanwhile).
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
+import type { DinoTheme } from '../types'
 import { SENSOR_SOCKET, parseSlap, takeLines } from './slaps'
 
 type $T = EngineInterface
+
+// Slap-to-jump is switched off for now: no sensor socket, no whip pause. To bring it back,
+// set this and restore the pauseWhip / slapMinG fields in plugin.json's userConfig.
+const SLAPS = false
 
 const HIT = { plugin: 'dino', key: 'hit' } as const
 const SENSOR = { plugin: 'dino', key: 'sensor' } as const
@@ -17,11 +23,18 @@ const sensorA = atom(SENSOR, 'connecting')
 const PANE = 'dino-game'
 const COMMAND = 'dino'
 
-type Opts = { pauseWhip: boolean; slapMinG: number }
+// What the pane, the command and the toast say for each runner.
+const WORDS: Record<DinoTheme, { title: string; icon: string; reply: string }> = {
+  claude: { title: '✻ Clawd run', icon: '✻', reply: "Clawd's offline. Click the game, then Space to jump and ↓ to duck." },
+  chrome: { title: '🦖 No internet', icon: '🦖', reply: 'No internet. Click the game, then Space to jump and ↓ to duck.' },
+}
+
+type Opts = { theme: DinoTheme; pauseWhip: boolean; slapMinG: number }
 
 function opts(o: Record<string, unknown> | undefined): Opts {
   const minG = o?.slapMinG
   return {
+    theme: o?.theme === 'chrome' ? 'chrome' : 'claude',
     pauseWhip: o?.pauseWhip !== false,
     slapMinG: typeof minG === 'number' && Number.isFinite(minG) ? Math.max(0, minG) : 0.08,
   }
@@ -151,9 +164,9 @@ async function resumeWhip($: $T): Promise<void> {
 // ---------- the game ----------
 
 async function openGame($: $T, o: Opts): Promise<void> {
-  S.wantSlaps = true
-  await $.ui.open({ id: PANE, title: '🦖 No internet', focus: true, rows: 26, columns: 76 })
-  if (o.pauseWhip) await pauseWhip($)
+  S.wantSlaps = SLAPS
+  await $.ui.open({ id: PANE, title: WORDS[o.theme].title, focus: true, rows: 26, columns: 76 })
+  if (SLAPS && o.pauseWhip) await pauseWhip($)
 }
 
 async function closeGame($: $T): Promise<void> {
@@ -166,15 +179,15 @@ export const register: Register = (on, options) => {
 
   on('session.start', async ($, e, next) => {
     try {
-      await $.command.register({ name: COMMAND, description: 'The Chrome no-internet dino in a pane: Space, click or slap the MacBook to jump' })
+      await $.command.register({ name: COMMAND, description: 'The no-internet runner in a pane, Clawd or the T-Rex: Space or click to jump' })
     } catch {
       $.ui.toast(`dino: another plugin already has /${COMMAND}`)
     }
     const best = Number(await $.store.get('best')) || 0
     if (best > 0) await update($, bestA, () => best)
-    // A pause left behind by a reload or crash (its pane is gone now) ends here.
+    // A pause left behind by a reload or crash (its pane is gone now) ends here, slaps on or off.
     await resumeWhip($)
-    void listen($, o.slapMinG)
+    if (SLAPS) void listen($, o.slapMinG)
     return next(e)
   })
 
@@ -185,7 +198,7 @@ export const register: Register = (on, options) => {
 
   on('command.run', { command: 'dino' }, async $ => {
     await openGame($, o)
-    return { text: 'No internet. Click the game, then Space to jump and ↓ to duck.' }
+    return { text: WORDS[o.theme].reply }
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
@@ -200,7 +213,7 @@ export const register: Register = (on, options) => {
     const { Box, Button, Client, Text } = $.ui.resolve(e)
     return (
       <Box flexDirection="column">
-        <Client key="dino" module="../games/dino.tsx" props={{ hit, best, surface: e.surface }} width={columns} height={rows} />
+        <Client key="dino" module="../games/dino.tsx" props={{ hit, best, surface: e.surface, theme: o.theme }} width={columns} height={rows} />
         <Box flexDirection="row" gap={1}>
           <Button key="close" label="close" role="dismiss" onPress={() => $.ui.close({ id: PANE })} />
           <Text dimColor>{sensor === 'on' ? `👋 slap sensor on · ${hit.n} slaps` : ''}</Text>
@@ -217,7 +230,7 @@ export const register: Register = (on, options) => {
       if (score > (await read($, bestA))) {
         await update($, bestA, () => score)
         await $.store.set('best', score)
-        $.ui.toast(`🦖 New best: ${score}`, { timeoutMs: 2500 })
+        $.ui.toast(`${WORDS[o.theme].icon} New best: ${score}`, { timeoutMs: 2500 })
       }
     }
     return next(e)

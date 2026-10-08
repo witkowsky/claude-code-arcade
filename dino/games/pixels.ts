@@ -171,10 +171,10 @@ export function mix(a: string, b: string, t: number): string {
  * The square-pixel canvas a game draws for a region of `columns` x `rows` cells (one row
  * kept for the HUD), and how to turn it into runs for the surface.
  */
-export function canvas(surface: 'terminal' | 'desktop', columns: number, rows: number): { pw: number; ph: number; toRuns: (f: Frame) => Run[][]; isCells: boolean } {
+export function canvas(surface: 'terminal' | 'desktop', columns: number, rows: number): { pw: number; ph: number; rows: number; toRuns: (f: Frame) => Run[][]; isCells: boolean } {
   const bodyRows = Math.max(6, rows - 1)
   if (surface === 'desktop') {
-    return { pw: columns, ph: Math.round(bodyRows / DESKTOP_CELL_ASPECT), toRuns: f => cells(squash(f, bodyRows)), isCells: true }
+    return { pw: columns, ph: Math.round(bodyRows / DESKTOP_CELL_ASPECT), rows: bodyRows, toRuns: f => cells(squash(f, bodyRows)), isCells: true }
   }
-  return { pw: columns, ph: bodyRows * 2, toRuns: halfBlocks, isCells: false }
+  return { pw: columns, ph: bodyRows * 2, rows: bodyRows, toRuns: halfBlocks, isCells: false }
 }

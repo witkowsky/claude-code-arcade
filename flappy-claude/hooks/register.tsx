@@ -1,12 +1,17 @@
 // Flappy Claude in a pane. The game runs on the drawing surface (games/flappy.tsx); this
-// module opens the pane, keeps the best score and, when ClaudeWhip is installed, turns a slap
-// on the MacBook into a flap while the pane is open (pausing the whip meanwhile).
+// module opens the pane, keeps the best score and, when slaps are on and ClaudeWhip is
+// installed, turns a slap on the MacBook into a flap while the pane is open (pausing the whip
+// meanwhile).
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
 import { SENSOR_SOCKET, parseSlap, takeLines } from './slaps'
 
 type $T = EngineInterface
+
+// Slap-to-flap is switched off for now: no sensor socket, no whip pause. To bring it back,
+// set this and restore the pauseWhip / slapMinG fields in plugin.json's userConfig.
+const SLAPS = false
 
 const HIT = { plugin: 'flappy-claude', key: 'hit' } as const
 const SENSOR = { plugin: 'flappy-claude', key: 'sensor' } as const
@@ -151,9 +156,9 @@ async function resumeWhip($: $T): Promise<void> {
 // ---------- the game ----------
 
 async function openGame($: $T, o: Opts): Promise<void> {
-  S.wantSlaps = true
+  S.wantSlaps = SLAPS
   await $.ui.open({ id: PANE, title: '✻ Flappy Claude', focus: true, rows: 26, columns: 76 })
-  if (o.pauseWhip) await pauseWhip($)
+  if (SLAPS && o.pauseWhip) await pauseWhip($)
 }
 
 async function closeGame($: $T): Promise<void> {
@@ -166,15 +171,15 @@ export const register: Register = (on, options) => {
 
   on('session.start', async ($, e, next) => {
     try {
-      await $.command.register({ name: COMMAND, description: 'Flappy Claude in a pane: Space, click or slap the MacBook to flap' })
+      await $.command.register({ name: COMMAND, description: 'Flappy Claude in a pane: Space or click to flap' })
     } catch {
       $.ui.toast(`flappy-claude: another plugin already has /${COMMAND}`)
     }
     const best = Number(await $.store.get('best')) || 0
     if (best > 0) await update($, bestA, () => best)
-    // A pause left behind by a reload or crash (its pane is gone now) ends here.
+    // A pause left behind by a reload or crash (its pane is gone now) ends here, slaps on or off.
     await resumeWhip($)
-    void listen($, o.slapMinG)
+    if (SLAPS) void listen($, o.slapMinG)
     return next(e)
   })
 

@@ -173,9 +173,9 @@ const Flappy: ClientModule<FlappyProps, State> = (props, surface) => {
   const verb = VERBS[Math.floor(w.score / 5) % VERBS.length] ?? 'Clauding'
   const hint =
     w.state === 'ready'
-      ? 'click here, then SPACE to fly · or slap the MacBook'
+      ? 'click here, then SPACE to fly'
       : w.state === 'dead'
-        ? `crashed at ${w.score} · SPACE / slap to fly again`
+        ? `crashed at ${w.score} · SPACE to fly again`
         : w.score >= 5
           ? `✻ ${verb}…`
           : ''
