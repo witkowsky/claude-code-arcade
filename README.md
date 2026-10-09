@@ -27,10 +27,11 @@ Little games that live in a Claude Code pane, for the minutes while the agent wo
 At a Claude Code prompt:
 
 ```
-/plugin install arcade --marketplace witkowsky/claude-code-arcade
+/plugin marketplace add witkowsky/claude-code-arcade
+/plugin install arcade@claude-code-arcade
 ```
 
-Answer `y` to add the marketplace and pick a scope. Then start a new session, or run `/reload-plugins`.
+Then start a new session, or run `/reload-plugins`. From a shell, the same two steps are `claude plugin marketplace add witkowsky/claude-code-arcade` and `claude plugin install arcade@claude-code-arcade`.
 
 Coming from the separate `flappy-claude` or `dino` plugins? Uninstall them (`/plugin uninstall flappy-claude`, `/plugin uninstall dino`); `arcade` has both. Best scores start over.
 
