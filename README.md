@@ -2,6 +2,11 @@
 
 Little games that live in a Claude Code pane, for the minutes while the agent works. They run in the terminal and in the desktop app's Code tab.
 
+<p align="center">
+  <img src="docs/flappy.gif" alt="Flappy Claude: Clawd flaps between pipes" width="49%">
+  <img src="docs/dino-claude.gif" alt="Dino: Clawd hops pipes" width="49%">
+</p>
+
 | Game | Command | What it is |
 |---|---|---|
 | **Flappy Claude** | `/flappy` | Flappy Bird with Clawd, the Claude Code mascot, flapping between pipes. Collect ✻ tokens. |
@@ -35,6 +40,12 @@ The games are mods: plugins built from function hooks. They need a Claude Code b
 ### Runner
 
 `/dino` runs Clawd by default. To get Chrome's grey T-Rex back, set `theme` to `chrome` (`/plugin configure dino@claude-code-arcade`).
+
+| `theme: claude` (default) | `theme: chrome` |
+|---|---|
+| ![Clawd running in Claude's colours](docs/dino-claude.png) | ![Chrome's grey T-Rex](docs/dino-chrome.png) |
+
+<p align="center"><img src="docs/dino-chrome.gif" alt="The chrome theme: the T-Rex jumps the cacti" width="70%"></p>
 
 ## How it works
 
