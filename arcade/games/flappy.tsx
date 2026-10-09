@@ -4,7 +4,7 @@
 import type { ClientModule, ClientSurface } from 'claude-code'
 
 import type { FlappyProps } from '../types'
-import { GROUND, PIPE_W, VIEW_H, createWorld } from './engine'
+import { GROUND, PIPE_W, VIEW_H, createWorld } from './flappy-engine'
 import type { Frame, Run } from './pixels'
 import { DESKTOP_CELL_ASPECT, cells, digits, fill, frame, halfBlocks, mix, rect, sprite, spriteSize, squash } from './pixels'
 

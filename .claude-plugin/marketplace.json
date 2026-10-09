@@ -4,15 +4,9 @@
   "owner": { "name": "Marek Witkowski" },
   "plugins": [
     {
-      "name": "flappy-claude",
-      "source": "./flappy-claude",
-      "description": "Flappy Bird with Clawd, the Claude Code mascot. Space or click to flap.",
-      "category": "fun"
-    },
-    {
-      "name": "dino",
-      "source": "./dino",
-      "description": "The Chrome no-internet runner, with Clawd (or the original T-Rex) hopping pipes and bugs. Space or click to jump.",
+      "name": "arcade",
+      "source": "./arcade",
+      "description": "Flappy Claude, the Dino runner, Clawd Snake, Bug Invaders and Clawd Pong in a pane, all in Claude's colours. /arcade to pick a game.",
       "category": "fun"
     }
   ]

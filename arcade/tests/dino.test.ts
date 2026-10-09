@@ -3,9 +3,9 @@ import { expect, test } from 'claude-code/testing'
 import { parseSlap, takeLines } from '../hooks/slaps'
 
 const PANE = {
-  plugin: 'dino',
+  plugin: 'arcade',
   component: 'Pane',
-  requestId: 'dino-game',
+  requestId: 'arcade-dino',
   props: { title: 'No internet', isFocused: true, bodyColumns: 60, placement: 'dock' } as any,
   viewport: { columns: 120, rows: 30 },
 } as const
@@ -34,7 +34,7 @@ test('the pane draws the dino on terminal and desktop, and it paints pixels', as
   }
 })
 
-test('the chrome theme: Space starts the run and the first cactus ends it', { options: { theme: 'chrome' } }, async $ => {
+test('the chrome theme: Space starts the run and the first cactus ends it', { options: { dinoTheme: 'chrome' } }, async $ => {
   for (const surface of ['terminal', 'desktop'] as const) {
     const ui = await $.ui.mount({ ...PANE, surface })
     await ui.resize({ columns: 50, rows: 16, in: 'dino' })
@@ -47,7 +47,7 @@ test('the chrome theme: Space starts the run and the first cactus ends it', { op
   }
 })
 
-test('the claude theme runs Clawd, in orange, until a pipe stops him', { options: { theme: 'claude' } }, async $ => {
+test('the claude theme runs Clawd, in orange, until a pipe stops him', { options: { dinoTheme: 'claude' } }, async $ => {
   for (const surface of ['terminal', 'desktop'] as const) {
     const ui = await $.ui.mount({ ...PANE, surface })
     await ui.resize({ columns: 50, rows: 16, in: 'dino' })

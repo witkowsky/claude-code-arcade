@@ -1,12 +1,12 @@
 {
-  "name": "dino",
-  "version": "0.2.0",
-  "description": "The Chrome no-internet runner in a Claude Code pane, terminal and desktop: Clawd in Claude's colours by default, or the original T-Rex. Space or click to jump.",
+  "name": "arcade",
+  "version": "0.3.0",
+  "description": "Claude Code Arcade: Flappy Claude, the Dino runner, Clawd Snake, Bug Invaders and Clawd Pong in a pane, terminal and desktop. /arcade to pick, or /arcade <game>.",
   "types": "./types/index.d.ts",
   "userConfig": {
-    "theme": {
+    "dinoTheme": {
       "type": "string",
-      "title": "Runner",
+      "title": "Dino runner",
       "description": "claude: Clawd hopping pipes and bugs in Claude's colours. chrome: the original grey T-Rex.",
       "options": ["claude", "chrome"],
       "default": "claude"
@@ -18,5 +18,5 @@
   "homepage": "https://github.com/witkowsky/claude-code-arcade",
   "repository": "https://github.com/witkowsky/claude-code-arcade",
   "license": "MIT",
-  "keywords": ["game", "dino", "t-rex", "clawd", "mod"]
+  "keywords": ["game", "arcade", "flappy-bird", "dino", "snake", "space-invaders", "pong", "clawd", "mod"]
 }

@@ -1,12 +1,12 @@
 import { expect, test } from 'claude-code/testing'
 
-import { createWorld, gapFor, speedFor } from '../games/engine'
+import { createWorld, gapFor, speedFor } from '../games/flappy-engine'
 import { parseSlap } from '../hooks/slaps'
 
 const PANE = {
-  plugin: 'flappy-claude',
+  plugin: 'arcade',
   component: 'Pane',
-  requestId: 'flappy-claude',
+  requestId: 'arcade-flappy',
   props: { title: 'Flappy Claude', isFocused: true, bodyColumns: 60, placement: 'dock' } as any,
   viewport: { columns: 120, rows: 30 },
 } as const
