@@ -5,7 +5,7 @@
   "plugins": [
     {
       "name": "arcade",
-      "source": "./arcade",
+      "source": "./",
       "description": "Flappy Claude, the Dino runner, Clawd Snake, Bug Invaders and Clawd Pong in a pane, all in Claude's colours. /arcade to pick a game.",
       "category": "fun"
     }

@@ -6,12 +6,8 @@ on:
   pull_request:
 
 jobs:
-  plugins:
+  plugin:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        plugin: [arcade]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,5 +16,4 @@ jobs:
       # The mods need a Claude Code build that loads mods; pinned to the one they were tested on.
       - run: npm install -g @anthropic-ai/claude-code@2.1.286
       - run: claude plugin validate .
-      - run: claude plugin validate ${{ matrix.plugin }}/.claude-plugin/plugin.json
-      - run: claude plugin test ${{ matrix.plugin }}
+      - run: claude plugin test .
