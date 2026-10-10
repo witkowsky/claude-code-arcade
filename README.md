@@ -62,7 +62,7 @@ The games are mods: plugins built from function hooks. They need a Claude Code b
 ## How it works
 
 - Each game is a `Client` surface module, so it runs on the drawing surface itself, with its own 30 fps clock and keyboard and mouse input. Nothing makes a round trip per frame.
-- Each game's rules live in a pure engine (`arcade/games/*-engine.ts`, or inside the game for Dino), tested without any surface.
+- Each game's rules live in a pure engine (`games/*-engine.ts`, or inside the game for Dino), tested without any surface.
 - Frames are drawn in pixels:
   - **Terminal:** each cell shows two pixels as a `▀` half block.
   - **Desktop:** text sits in taller line boxes there, so each cell is one background-coloured pixel. The frame is drawn in square pixels and folded into those taller cells, keeping thin details like Clawd's eyes.
@@ -71,7 +71,7 @@ The games are mods: plugins built from function hooks. They need a Claude Code b
 The plugin has tests:
 
 ```bash
-claude plugin test arcade
+claude plugin test .
 ```
 
 ## Credits
